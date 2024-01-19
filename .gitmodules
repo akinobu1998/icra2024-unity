@@ -1,0 +1,3 @@
+[submodule "Assets/ConvenienceStoreModels"]
+	path = Assets/ConvenienceStoreModels
+	url = https://github.com/SIGVerse/convenience-store-3d-models.git

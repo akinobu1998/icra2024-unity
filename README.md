@@ -15,7 +15,7 @@ https://github.com/FCSCinCyberSpace/documents/blob/main/SoftwareManual/Environme
 This repository uses the submodule function, so please clone it with the following command.
 
 ```bash:
-git clone --recursive https://github.com/SIGVerse/convenience-store-3d-models-unity.git
+git clone --recursive https://github.com/FCSCinCyberSpace/icra2024-unity
 ```
 
 ## How to Build

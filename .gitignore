@@ -78,6 +78,10 @@ crashlytics-build.properties
 /SIGVerseConfig/*
 !/SIGVerseConfig/sample/
 !/SIGVerseConfig/data/
+!/SIGVerseConfig/InteractiveCustomerService/
+/SIGVerseConfig/InteractiveCustomerService/*
+!/SIGVerseConfig/InteractiveCustomerService/sample/
+
 /MotionData/
 
 SIGVerse*.log
@@ -100,4 +104,6 @@ SIGVerse*.log
 /Assets/UniGLTF*
 /Assets/VRM*
 /Assets/VRMShaders*
+
+/GoodsScreenshot/*
 

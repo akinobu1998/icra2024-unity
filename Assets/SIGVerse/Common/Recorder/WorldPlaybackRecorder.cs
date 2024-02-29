@@ -342,7 +342,7 @@ namespace SIGVerse.Common.Recorder
 
 		protected virtual void OnGUI()
 		{
-			if (this.step == Step.Recording)
+			if (this.step == Step.Recording && this.mainPanelStatusText!=null)
 			{
 				this.mainPanelStatusText.text = Math.Floor(this.elapsedTime).ToString(TimeFormat);
 			}

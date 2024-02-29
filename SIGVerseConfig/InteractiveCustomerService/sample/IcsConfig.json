@@ -1,0 +1,10 @@
+﻿{
+    "teamName": "Inter@ctiveCustomerService",
+    "sessionTimeLimit": 300,
+    "maxNumberOfTrials": 3,
+    "isScoreFileRead": false,
+    "playbackType": 0,
+    "bgmVolume": 0.01,
+    "dummyMode": 1
+}
+

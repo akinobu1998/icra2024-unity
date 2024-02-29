@@ -224,7 +224,7 @@ QualitySettings:
     excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Very Low Anti Aliasing
-    pixelLightCount: 0
+    pixelLightCount: 8
     shadows: 1
     shadowResolution: 0
     shadowProjection: 1
@@ -236,7 +236,7 @@ QualitySettings:
     shadowmaskMode: 0
     skinWeights: 1
     textureQuality: 0
-    anisotropicTextures: 0
+    anisotropicTextures: 2
     antiAliasing: 8
     softParticles: 0
     softVegetation: 1

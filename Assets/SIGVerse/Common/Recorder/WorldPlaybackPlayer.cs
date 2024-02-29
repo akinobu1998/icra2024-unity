@@ -56,7 +56,7 @@ namespace SIGVerse.Common.Recorder
 		public Sprite playSprite;
 		public Sprite pauseSprite;
 
-		public MonoBehaviour behav;
+//		public MonoBehaviour behav;
 
 
 		//--------------------------------------------------------------------------------------------
@@ -123,7 +123,11 @@ namespace SIGVerse.Common.Recorder
 		protected virtual void Start()
 		{
 			StartCoroutine(this.DisableObjectsAtStartOfPlaybackMode());
-			StartCoroutine(this.EnableObservationCamera());
+
+			if(this.useObservationCamera)
+			{
+				StartCoroutine(this.EnableObservationCamera());
+			}
 		}
 
 		protected virtual IEnumerator DisableObjectsAtStartOfPlaybackMode()

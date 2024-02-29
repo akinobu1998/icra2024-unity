@@ -82,6 +82,9 @@ crashlytics-build.properties
 /SIGVerseConfig/InteractiveCustomerService/*
 !/SIGVerseConfig/InteractiveCustomerService/sample/
 
+/TTS/*
+!/TTS/.gitkeep
+
 /MotionData/
 
 SIGVerse*.log

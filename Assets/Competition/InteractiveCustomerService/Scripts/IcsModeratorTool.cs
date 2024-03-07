@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using SIGVerse.Common;
-using SIGVerse.ToyotaHSR;
 using System.Collections;
 using SIGVerse.RosBridge;
-using SIGVerse.SIGVerseRosBridge;
 using SIGVerse.FCSC.Common;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Printing;
 
 namespace SIGVerse.FCSC.InteractiveCustomerService
 {
@@ -45,7 +46,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 	public class IcsModeratorTool
 	{
-		private const string TaskInfoFileNameFormat = "/../SIGVerseConfig/InteractiveCustomerService/TaskInfo{0:D2}.json";
+		private const string TaskInfoFileNameFormat  = "/../SIGVerseConfig/InteractiveCustomerService/TaskInfo{0:D2}.json";
+		private const string TaskImageFileNameFormat = "/../SIGVerseConfig/InteractiveCustomerService/TaskImage{0:D2}.jpg";
 
 //		private const string TagModerator = "Moderator";
 		private const string TagGraspable = "Graspable";
@@ -63,7 +65,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 		private IRosConnection[] rosConnections;
 
-		private string taskMessage;
+		private TaskInfo  taskInfo;
+		private Texture2D flippedTaskImage = null;
 
 		private GameObject targetItem;
 		private List<GameObject> graspables;
@@ -86,7 +89,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 			GetGameObjects(moderator);
 
-			Initialize(moderator);
+			Initialize();
 		}
 
 
@@ -106,17 +109,21 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		}
 
 
-		private void Initialize(IcsModerator moderator)
+		private void Initialize()
 		{
-			TaskInfo taskInfo = GetTaskInfo();
-			this.taskMessage = taskInfo.message;
+			this.taskInfo = ReadTaskInfo();
 
-			this.targetItem = this.graspables.FirstOrDefault(graspable => graspable.name == taskInfo.targetName);
+			if(this.taskInfo.hasImage)
+			{
+				this.flippedTaskImage = ReadFlippedTaskImage();
+			}
+
+			this.targetItem = this.graspables.FirstOrDefault(graspable => graspable.name == this.taskInfo.targetName);
 
 			// Check
 			if(this.targetItem==null)
 			{
-				throw new Exception("The item with that name does not exist. TargetName="+taskInfo.targetName);
+				throw new Exception("The item with that name does not exist. TargetName="+this.taskInfo.targetName);
 			}
 
 			this.rosConnections = SIGVerseUtils.FindObjectsOfInterface<IRosConnection>();
@@ -162,9 +169,14 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		}
 
 
-		public string GetTaskMessage()
+		public TaskInfo GetTaskInfo()
 		{
-			return this.taskMessage;
+			return this.taskInfo;
+		}
+
+		public Texture2D GetFlippedTaskImage()
+		{
+			return this.flippedTaskImage;
 		}
 
 
@@ -335,7 +347,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		}
 
 
-		public TaskInfo GetTaskInfo()
+		private TaskInfo ReadTaskInfo()
 		{
 			string filePath = String.Format(Application.dataPath + TaskInfoFileNameFormat, IcsConfig.Instance.numberOfTrials);
 
@@ -353,6 +365,47 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			else
 			{
 				throw new Exception("Task info file does not exist. filePath=" + filePath);
+			}
+		}
+
+		private Texture2D ReadFlippedTaskImage()
+		{
+			string filePath = String.Format(Application.dataPath + TaskImageFileNameFormat, IcsConfig.Instance.numberOfTrials);
+
+			if (File.Exists(filePath))
+			{
+				try
+				{
+					Texture2D flippedImageTexture;
+
+					using (System.Drawing.Image originalImage = System.Drawing.Image.FromFile(filePath))
+					{
+						// Flip upside down
+						originalImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
+
+						byte[] flippedImageData;
+						using (MemoryStream memoryStream = new MemoryStream())
+						{
+							originalImage.Save(memoryStream, ImageFormat.Jpeg);
+							flippedImageData = memoryStream.ToArray();
+						}
+
+						flippedImageTexture = new Texture2D(originalImage.Width, originalImage.Height, TextureFormat.RGB24, false);
+						flippedImageTexture.LoadImage(flippedImageData);
+					}
+
+					return flippedImageTexture;
+				}
+				catch(Exception ex)
+				{
+					SIGVerseLogger.Error("Couldn't read the task image file. filePath="+filePath);
+					SIGVerseLogger.Error(ex.StackTrace);
+					throw ex;
+				}
+			}
+			else
+			{
+				throw new Exception("Task image file does not exist. filePath=" + filePath);
 			}
 		}
 	}

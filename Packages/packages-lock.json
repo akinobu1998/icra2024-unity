@@ -404,44 +404,44 @@
       "url": "https://packages.unity.com"
     },
     "com.vrmc.gltf": {
-      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.119.0",
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.110.0",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.vrmc.vrmshaders": "0.119.0",
+        "com.vrmc.vrmshaders": "0.110.0",
         "com.unity.modules.animation": "1.0.0"
       },
-      "hash": "c684b7247781dc68b01dcabccc93ab71d8537e04"
+      "hash": "3f7d81cfe9926f3b4bc5be335597a6ac3e3a0be6"
     },
     "com.vrmc.univrm": {
-      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.119.0",
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.110.0",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.vrmc.vrmshaders": "0.119.0",
-        "com.vrmc.gltf": "0.119.0",
+        "com.vrmc.vrmshaders": "0.110.0",
+        "com.vrmc.gltf": "0.110.0",
         "com.unity.ugui": "1.0.0"
       },
-      "hash": "c684b7247781dc68b01dcabccc93ab71d8537e04"
+      "hash": "3f7d81cfe9926f3b4bc5be335597a6ac3e3a0be6"
     },
     "com.vrmc.vrm": {
-      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.119.0",
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.110.0",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.vrmc.vrmshaders": "0.119.0",
-        "com.vrmc.gltf": "0.119.0"
+        "com.vrmc.vrmshaders": "0.110.0",
+        "com.vrmc.gltf": "0.110.0"
       },
-      "hash": "c684b7247781dc68b01dcabccc93ab71d8537e04"
+      "hash": "3f7d81cfe9926f3b4bc5be335597a6ac3e3a0be6"
     },
     "com.vrmc.vrmshaders": {
-      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRMShaders#v0.119.0",
+      "version": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRMShaders#v0.110.0",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.modules.imageconversion": "1.0.0"
       },
-      "hash": "c684b7247781dc68b01dcabccc93ab71d8537e04"
+      "hash": "3f7d81cfe9926f3b4bc5be335597a6ac3e3a0be6"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

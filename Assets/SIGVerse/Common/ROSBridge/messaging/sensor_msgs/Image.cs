@@ -22,7 +22,8 @@ namespace SIGVerse.RosBridge
 			public string encoding;
 			public byte is_bigendian;
 			public System.UInt32 step;
-			public System.Collections.Generic.List<byte>  data;
+			//public System.Collections.Generic.List<byte>  data;
+			public byte[] data;
 
 
 			public Image()
@@ -33,10 +34,12 @@ namespace SIGVerse.RosBridge
 				this.encoding = "";
 				this.is_bigendian = 0;
 				this.step = 0;
-				this.data = new System.Collections.Generic.List<byte>();
+				//this.data = new System.Collections.Generic.List<byte>();
+				this.data = null;
 			}
 
-			public Image(std_msgs.Header header, System.UInt32 height, System.UInt32 width, string encoding, byte is_bigendian, System.UInt32 step, System.Collections.Generic.List<byte>  data)
+//			public Image(std_msgs.Header header, System.UInt32 height, System.UInt32 width, string encoding, byte is_bigendian, System.UInt32 step, System.Collections.Generic.List<byte>  data)
+			public Image(std_msgs.Header header, System.UInt32 height, System.UInt32 width, string encoding, byte is_bigendian, System.UInt32 step, byte[]  data)
 			{
 				this.header = header;
 				this.height = height;

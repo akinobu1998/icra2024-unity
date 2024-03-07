@@ -1,6 +1,6 @@
 {
-    "message": "Please get a chewing gum.",
-    "hasImage": false,
+    "message": "Please bring me the same chewing gum as this one.",
+    "hasImage": true,
     "targetName": "11_xylitol-1000"
 }
 

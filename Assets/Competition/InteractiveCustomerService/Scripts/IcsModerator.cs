@@ -86,6 +86,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		public Button   customerYesButton;
 		public Button   customerNoButton;
 		public Button   customerIdontKnowButton;
+		public Image    taskImageImage;
 
 		[HeaderAttribute("Objects")]
 		public IcsScoreManager scoreManager;
@@ -107,8 +108,10 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		private PanelMainController mainPanelController;
 
 		private IcsPubRobotStatus icsPubRobotStatus;
+		private IcsPubCustomerImage       icsPubImage;
 
 		private string taskMessage;
+		private Texture2D flippedTaskImageTexture;
 
 		private ModeratorStep step;
 		private string robotMessage;
@@ -143,6 +146,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 				this.mainPanelController = this.mainMenu.GetComponent<PanelMainController>();
 
 				this.icsPubRobotStatus = this.robotRosBridgeScripts.GetComponent<IcsPubRobotStatus>();
+				this.icsPubImage       = this.robotRosBridgeScripts.GetComponent<IcsPubCustomerImage>();
 			}
 			catch (Exception exception)
 			{
@@ -208,8 +212,20 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 			this.scoreManager.ResetTimeLeftText();
 
-			this.taskMessage = this.tool.GetTaskMessage();
+			this.taskMessage = this.tool.GetTaskInfo().message;
 			this.customerMessageText.text = this.taskMessage;
+
+			if(this.tool.GetTaskInfo().hasImage)
+			{
+				this.flippedTaskImageTexture = this.tool.GetFlippedTaskImage();
+
+				this.taskImageImage.preserveAspect = true;
+				this.taskImageImage.sprite = Sprite.Create(this.flippedTaskImageTexture, new Rect(0f, 0f, this.flippedTaskImageTexture.width, this.flippedTaskImageTexture.height), new Vector2(0.5f, 0.5f), 100f);
+			}
+			else
+			{
+				this.taskImageImage.enabled = false;
+			}
 
 			SIGVerseLogger.Info("Task message="+this.taskMessage);
 
@@ -370,6 +386,10 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 						if (this.stepTimer.IsTimePassed((int)this.step, 1000))
 						{
 							this.SendRosMessage(MsgCustomerMessage, this.taskMessage);
+							if(this.tool.GetTaskInfo().hasImage)
+							{
+								this.icsPubImage.PubImage(this.flippedTaskImageTexture);
+							}
 							this.tool.AddSpeechQueModerator(this.taskMessage);
 
 							SIGVerseLogger.Info("Sent the first message.");

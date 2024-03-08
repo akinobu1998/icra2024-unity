@@ -117,6 +117,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		private string robotMessage;
 		private string itemThatRobotWants;
 		private GameObject graspedItem;
+		private ushort robotSpeechCnt;
 
 		private Dictionary<string, bool> receivedMessageMap;
 
@@ -200,6 +201,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		private void PreProcess()
 		{
 			this.graspedItem = null;
+			this.robotSpeechCnt = 0;
 			UpdateRobotStatus();
 			this.robotMessage = string.Empty;
 			this.itemThatRobotWants = string.Empty;
@@ -409,6 +411,9 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 							this.tool.AddSpeechQueHsr(this.robotMessage);
 
 							SendRosMessage(MsgRobotMsgSucceeded, this.robotMessage);
+							this.robotSpeechCnt++;
+							SIGVerseLogger.Info("Robot Speech Count="+this.robotSpeechCnt);
+							this.scoreManager.AddScore(Score.Type.RobotSpeech, new object[] { this.robotSpeechCnt });
 
 							this.receivedMessageMap[MsgRobotMessage] = false;
 							this.robotMessage = string.Empty;
@@ -505,7 +510,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 							{
 								SIGVerseLogger.Info("Task Completed");
 								this.SendPanelNotice("Task Completed", 120, PanelNoticeStatus.Green);
-								this.scoreManager.AddScore(Score.Type.PlacementSuccess);
+								this.scoreManager.AddScore(Score.Type.PlacementSuccess, new object[] { this.robotSpeechCnt });
 								this.tool.AddSpeechQueModerator("Excellent!");
 
 								this.GoToNextTaskTaskSucceeded();
@@ -514,7 +519,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 							{
 								SIGVerseLogger.Info("Failed '" + MsgWrongProduct + "'");
 								this.SendPanelNotice("Failed\n" + MsgWrongProduct, 100, PanelNoticeStatus.Red);
-								this.scoreManager.AddScore(Score.Type.PlacementFailure);
+								this.scoreManager.AddScore(Score.Type.PlacementFailure, new object[] { this.robotSpeechCnt });
 								this.tool.AddSpeechQueModeratorFailed();
 
 								this.GoToNextTaskTaskFailed(MsgWrongProduct);

@@ -18,12 +18,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 		public enum Type
 		{
-			//RoomReachingSuccess,
-			//RoomReachingFailure,
-			//TargetConfirmationSuccess, 
-			//TargetConfirmationFailure, 
-			//GraspingSuccess,
-			//GraspingFailure,
+			RobotSpeech,
 			PlacementSuccess,
 			PlacementFailure,
 		}
@@ -32,17 +27,36 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		{
 			switch(scoreType)
 			{
-				//case Score.Type.RoomReachingSuccess      : { return +20; }
-				//case Score.Type.RoomReachingFailure      : { return -10; }
-				//case Score.Type.TargetConfirmationSuccess: { return +50; }
-				//case Score.Type.TargetConfirmationFailure: { return -10; }
-				//case Score.Type.GraspingSuccess          : { return +50; }
-				//case Score.Type.GraspingFailure          : { return -10; }
-				case Score.Type.PlacementSuccess         : { return +30; }
-				case Score.Type.PlacementFailure         : { return -10; }
+				case Score.Type.RobotSpeech      : { return GetSpeechCountDeduction((ushort)args[0]); }
+				case Score.Type.PlacementSuccess : { return +10 + GetSpeechCountBonus((ushort)args[0]); }
+				case Score.Type.PlacementFailure : { return -10; }
 			}
 
 			throw new Exception("Illegal score type. Type = " + (int)scoreType + ", method name=(" + System.Reflection.MethodBase.GetCurrentMethod().Name + ")");
+		}
+
+		private static int GetSpeechCountDeduction(ushort speechCount)
+		{
+			if(speechCount > 5)
+			{
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		private static int GetSpeechCountBonus(ushort speechCount)
+		{
+			if(speechCount < 5)
+			{
+				return (5-speechCount) * 2;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 	}
 

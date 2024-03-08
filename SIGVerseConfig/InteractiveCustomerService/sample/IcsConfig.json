@@ -1,7 +1,7 @@
 ﻿{
     "teamName": "Inter@ctiveCustomerService",
     "sessionTimeLimit": 300,
-    "maxNumberOfTrials": 3,
+    "maxNumberOfTrials": 4,
     "isScoreFileRead": false,
     "playbackType": 0,
     "bgmVolume": 0.01,

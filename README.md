@@ -3,7 +3,7 @@
 This is a Unity project for Interactive Customer Service task.  
 The task is one of the competition tasks in "Future Convenience Store Challenge in Cyber Space".
 
-Please refer to [the rulebook](https://github.com/FCSCinCyberSpace/documents) and [wiki](wiki) for details of the competition.
+Please refer to [the rulebook](https://github.com/FCSCinCyberSpace/documents) and [wiki](https://github.com/FCSCinCyberSpace/icra2024-unity/wiki) for details of the competition.
 
 ## Prerequisites
 

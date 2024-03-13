@@ -216,6 +216,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 			this.taskMessage = this.tool.GetTaskInfo().message;
 			this.customerMessageText.text = this.taskMessage;
+			this.robotMessageText.text = "---";
 
 			if(this.tool.GetTaskInfo().hasImage)
 			{
@@ -789,6 +790,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 				return; 
 			}
 			
+			SIGVerseLogger.Info("[Yes] button clicked");
+
 			this.customerButtonMsg = MsgYes;
 		}
 
@@ -800,6 +803,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 				return; 
 			}
 			
+			SIGVerseLogger.Info("[No] button clicked");
+			
 			this.customerButtonMsg = MsgNo;
 		}
 
@@ -810,6 +815,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 				SIGVerseLogger.Warn("Bad timing. Button Click: "+MsgIdontKnow);
 				return; 
 			}
+			
+			SIGVerseLogger.Info("[I don't know] button clicked");
 			
 			this.customerButtonMsg = MsgIdontKnow;
 		}

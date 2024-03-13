@@ -1,9 +1,9 @@
-# ----- Under Construction -----
-
 # Interactive Customer Service
 
-This is a Unity project for the competition of Interactive Customer Service task of
-Future Convenience Store Challenge in Cyber Space.
+This is a Unity project for Interactive Customer Service task.  
+The task is one of the competition tasks in "Future Convenience Store Challenge in Cyber Space".
+
+Please refer to [the rulebook](https://github.com/FCSCinCyberSpace/documents) and [wiki](wiki) for details of the competition.
 
 ## Prerequisites
 

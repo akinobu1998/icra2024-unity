@@ -22,7 +22,7 @@ namespace SIGVerse.FCSC.Common
 
 	public abstract class CompetitionConfigSingleton<T> : MonoBehaviour where T : MonoBehaviour
 	{
-		public CompetitionConfigFileInfo info;
+		public CompetitionConfigFileInfo configFileInfo;
 
 		public int numberOfTrials;
 		public List<int> scores;
@@ -36,8 +36,8 @@ namespace SIGVerse.FCSC.Common
 		{
 			SetFilePath();
 
-			this.info = ReadConfigFile<CompetitionConfigFileInfo>();
-			Initialize(this.info);
+			this.configFileInfo = ReadConfigFile<CompetitionConfigFileInfo>();
+			Initialize(this.configFileInfo);
 		}
 
 		protected virtual void SetFilePath()
@@ -70,6 +70,8 @@ namespace SIGVerse.FCSC.Common
 #else
 				SIGVerseLogger.Error("Config file does not exists.");
 				Application.Quit();
+
+				throw new Exception("Config file does not exists."); // For avoiding compile error
 #endif
 			}
 

@@ -16,7 +16,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		public const string ConfigFileName = "IcsConfig.json";
 		public const string ScoreFileName  = "IcsScore.txt";
 
-		public new IcsConfigFileInfo info;
+		public IcsConfigFileInfo info;
 		
 		protected IcsConfig() { } // guarantee this will be always a singleton only - can't use the constructor!
 

@@ -385,7 +385,6 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 					case ModeratorStep.SendFirstMessage:
 
-						// Wait for sending tf 
 						if (this.stepTimer.IsTimePassed((int)this.step, 1000))
 						{
 							this.SendRosMessage(MsgCustomerMessage, this.taskMessage);

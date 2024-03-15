@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Competition/Scenes/InteractiveCustomerService.unity
     guid: ccc5d5159ac054d4996a62b423d9fe33
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 6438385ef2a40ad41a4463c822ba36de,
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3e668b3ca35e5534b90c46f237966436,
       type: 2}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 57e39d5fe7f34044e8aec2ee2590c27e,
       type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 3df72ff55b256c44c809f92787bd6a61,
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 5fc4248ed9de01b4d8dfe67f766fd555,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: bf328858442f429459f8a0992e7bbad5,
       type: 2}

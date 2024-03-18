@@ -87,6 +87,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		public Button   customerNoButton;
 		public Button   customerIdontKnowButton;
 		public Image    taskImageImage;
+		public CameraForUI cameraForTargetObj;
+		public CameraForUI cameraForGraspedObj;
 
 		[HeaderAttribute("Objects")]
 		public IcsScoreManager scoreManager;
@@ -221,7 +223,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			if(this.tool.GetTaskInfo().hasImage)
 			{
 				this.flippedTaskImageTexture = this.tool.GetFlippedTaskImage();
-
+				
 				this.taskImageImage.preserveAspect = true;
 				this.taskImageImage.sprite = Sprite.Create(this.flippedTaskImageTexture, new Rect(0f, 0f, this.flippedTaskImageTexture.width, this.flippedTaskImageTexture.height), new Vector2(0.5f, 0.5f), 100f);
 			}
@@ -229,6 +231,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			{
 				this.taskImageImage.enabled = false;
 			}
+
+			this.cameraForTargetObj.Capture(this.tool.GetTargetItem());
 
 			SIGVerseLogger.Info("Task message="+this.taskMessage);
 
@@ -543,6 +547,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 						if (this.robotRouting.IsItemTaken())
 						{
 							this.graspedItem = TakeItem(this.itemThatRobotWants);
+							this.cameraForGraspedObj.Capture(this.graspedItem);
 
 							this.step++;
 							UpdateRobotStatus();

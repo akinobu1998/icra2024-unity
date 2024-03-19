@@ -43,14 +43,14 @@ namespace SIGVerse.FCSC.Common
 			this.replicatedObject.tag = TagUntagged;
 			this.replicatedObject.layer = 0;
 			this.replicatedObject.transform.parent = this.targetCamera.transform;
-			this.replicatedObject.transform.SetLocalPositionAndRotation(new Vector3(0, 0, 1f), Quaternion.Euler(0, 180, 0));
+			this.replicatedObject.transform.SetLocalPositionAndRotation(new Vector3(0, 0, 1f), Quaternion.Euler(30, 180, 0));
 			DisableComponents(this.replicatedObject);
 
 			(Vector3 centerPos, Vector3 boundsExtents) = GetCenterAndBoundsExtents(this.replicatedObject.transform);
 
-			this.replicatedObject.transform.position = 2 * this.replicatedObject.transform.position - centerPos;
+			this.replicatedObject.transform.position = this.replicatedObject.transform.position - centerPos;
 
-			this.targetCamera.orthographicSize = Mathf.Max(boundsExtents.x, boundsExtents.y) * 1.05f;
+			this.targetCamera.orthographicSize = Mathf.Max(boundsExtents.x, boundsExtents.y) * 1.2f;
 
 			StartCoroutine(CaptureCoroutine());
 		}
@@ -102,15 +102,15 @@ namespace SIGVerse.FCSC.Common
 		{
 			Renderer[] renderers = target.GetComponentsInChildren<Renderer>(true);
 
-			if (renderers.Length == 0) { return (target.position, Vector3.zero); } //TODO
+			if (renderers.Length == 0) { throw new Exception("No renderers"); }
 
 			Vector3 minPos = Vector3.positiveInfinity;
 			Vector3 maxPos = Vector3.negativeInfinity;
 
 			for (int i = 0;i < renderers.Length;i++)
 			{
-				Vector3 center  = renderers[i].bounds.center;
-				Vector3 extents = renderers[i].bounds.extents;
+				Vector3 center  = renderers[i].localBounds.center;
+				Vector3 extents = renderers[i].localBounds.extents;
 
 				if (minPos.x > center.x - extents.x) { minPos.x = center.x - extents.x; }
 				if (minPos.y > center.y - extents.y) { minPos.y = center.y - extents.y; }

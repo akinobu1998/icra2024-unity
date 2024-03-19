@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,7 +146,12 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 						parentConstraint.AddSource(this.constraintSourceGraspPosition);
 						parentConstraint.constraintActive = true;
 
+						// Adust the grasped item
+						(Vector3 centerPos, Vector3 boundsExtents) = GetCenterAndBoundsExtents(this.graspedItem);
 
+						Vector3 rotationOffset = CalcParentConstraintRotationOffset(boundsExtents);
+						parentConstraint.SetRotationOffset(0, rotationOffset);
+						parentConstraint.SetTranslationOffset(0, Quaternion.Euler(rotationOffset)*(-centerPos));
 
 						this.armController.ResetArm();
 						this.walkState++;
@@ -190,6 +196,67 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 						this.walkState = WalkState.Standby;
 					}
 					break;
+			}
+		}
+
+		private static (Vector3, Vector3) GetCenterAndBoundsExtents(Transform target)
+		{
+			Renderer[] renderers = target.GetComponentsInChildren<Renderer>(true);
+
+			if (renderers.Length == 0) { throw new Exception("No renderers"); }
+
+			Vector3 minPos = Vector3.positiveInfinity;
+			Vector3 maxPos = Vector3.negativeInfinity;
+
+			for (int i = 0;i < renderers.Length;i++)
+			{
+				Vector3 center  = renderers[i].localBounds.center;
+				Vector3 extents = renderers[i].localBounds.extents;
+
+				if (minPos.x > center.x - extents.x) { minPos.x = center.x - extents.x; }
+				if (minPos.y > center.y - extents.y) { minPos.y = center.y - extents.y; }
+				if (minPos.z > center.z - extents.z) { minPos.z = center.z - extents.z; }
+				if (maxPos.x < center.x + extents.x) { maxPos.x = center.x + extents.x; }
+				if (maxPos.y < center.y + extents.y) { maxPos.y = center.y + extents.y; }
+				if (maxPos.z < center.z + extents.z) { maxPos.z = center.z + extents.z; }
+			}
+
+			return ((minPos + maxPos) / 2, (maxPos - minPos) / 2);
+		}
+
+		private static Vector3 CalcParentConstraintRotationOffset(Vector3 boundsExtents)
+		{
+			string orderStr = GetBoundsExtentsOrderString(boundsExtents);
+
+			Debug.Log("OrderString = "+orderStr);
+
+			if (orderStr == "xyz") { return new Vector3( 0, 90, 90); }
+			if (orderStr == "xzy") { return new Vector3( 0,  0, 90); }
+			if (orderStr == "yxz") { return new Vector3( 0, 90,  0); }
+			if (orderStr == "yzx") { return new Vector3( 0,  0,  0); }
+			if (orderStr == "zxy") { return new Vector3(90, 90,  0); }
+			if (orderStr == "zyx") { return new Vector3(90,  0,  0); }
+
+			throw new Exception("Invalid OrderString = "+orderStr);
+		}
+
+		private static string GetBoundsExtentsOrderString(Vector3 boundsExtents)
+		{
+			float x = boundsExtents.x;
+			float y = boundsExtents.y;
+			float z = boundsExtents.z;
+
+			Debug.Log("BoundsExtents = "+boundsExtents);
+
+			if (x > y)
+			{
+				if (x > z){ return y > z ? "xyz" : "xzy"; }
+				else      { return "zxy"; }
+			}
+			else
+			{
+				if (x > z){ return "yxz"; }
+				else      { return y > z ? "yzx" : "zyx"; }
 			}
 		}
 

@@ -9,7 +9,7 @@ using UnityEditor.Recorder.Input;
 using UnityEngine;
 using System.Linq;
 
-namespace SIGVerse
+namespace SIGVerse.FCSC.Common
 {
 	public class ScreenShotCapture : MonoBehaviour
 	{

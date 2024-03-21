@@ -5,10 +5,9 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Animations;
 using System.Reflection;
-using SIGVerse.FCSC.InteractiveCustomerService;
 using System;
 
-namespace SIGVerse
+namespace SIGVerse.FCSC.InteractiveCustomerService
 {
 	public class GraspPositionTest : MonoBehaviour
 	{
@@ -41,10 +40,6 @@ namespace SIGVerse
 
 			StartCoroutine(TakeItems());
 		}
-
-		//void Update()
-		//{
-		//}
 
 		private void DisableRobotComponents(GameObject robot)
 		{
@@ -121,14 +116,5 @@ namespace SIGVerse
 			parentConstraint.SetRotationOffset(0, rotationOffset);
 			parentConstraint.SetTranslationOffset(0, Quaternion.Euler(rotationOffset) * (-centerPos));
 		}
-
-		//void OnGUI()
-		//{
-		//	if (GUI.Button(new Rect(10, 10, 150, 50), "Capture ScreenShot"))
-		//	{
-		//		recorderController.PrepareRecording();
-		//		recorderController.StartRecording();
-		//	}
-		//}
 	}
 }

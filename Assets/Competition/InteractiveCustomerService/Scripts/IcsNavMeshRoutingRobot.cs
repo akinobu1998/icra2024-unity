@@ -199,7 +199,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			}
 		}
 
-		private static (Vector3, Vector3) GetCenterAndBoundsExtents(Transform target)
+		private static (Vector3 centerPos, Vector3 boundsExtents) GetCenterAndBoundsExtents(Transform target)
 		{
 			Renderer[] renderers = target.GetComponentsInChildren<Renderer>(true);
 
@@ -243,7 +243,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		private static string GetBoundsExtentsOrderString(Vector3 boundsExtents)
 		{
 			float x = boundsExtents.x;
-			float y = boundsExtents.y;
+			float y = boundsExtents.y * 1.05f; // Prioritize the y direction.
 			float z = boundsExtents.z;
 
 			Debug.Log("BoundsExtents = "+boundsExtents);

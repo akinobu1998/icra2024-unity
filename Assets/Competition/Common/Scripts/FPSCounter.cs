@@ -1,34 +1,76 @@
+// https://gist.github.com/st4rdog/80057b406bfd00f44c8ec8796a071a13
+
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FPSCounter : MonoBehaviour
 {
-	[SerializeField]
-	private float m_updateInterval = 0.5f;
-
-	private float m_accum;
-	private int m_frames;
-	private float m_timeleft;
-	private float m_fps;
-	private Text m_Text;
-
-	private void Awake()
+	public enum DeltaTimeType
 	{
-		m_Text = GetComponent<Text>();
+		Smooth,
+		Unscaled
 	}
 
-	private void Update()
+	public Text Text;
+	[Tooltip("Unscaled is more accurate, but jumpy, or if your game modifies Time.timeScale. Use Smooth for smoothDeltaTime.")]
+	public DeltaTimeType DeltaType = DeltaTimeType.Smooth;
+
+	private Dictionary<int, string> CachedNumberStrings = new();
+
+	private int[] _frameRateSamples;
+	private int _cacheNumbersAmount = 300;
+	private int _averageFromAmount = 30;
+	private int _averageCounter;
+	private int _currentAveraged;
+
+	void Awake()
 	{
-		m_timeleft -= Time.deltaTime;
-		m_accum += Time.timeScale / Time.deltaTime;
-		m_frames++;
+		// Cache strings and create array
+		{
+			for (int i = 0; i < _cacheNumbersAmount; i++) {
+				CachedNumberStrings[i] = i.ToString();
+			}
 
-		if ( 0 < m_timeleft ) return;
+			_frameRateSamples = new int[_averageFromAmount];
+		}
+	}
 
-		m_fps = m_accum / m_frames;
-		m_Text.text = "FPS: " + m_fps.ToString( "f1" );
-		m_timeleft = m_updateInterval;
-		m_accum = 0;
-		m_frames = 0;
+	void Update()
+	{
+		// Sample
+		{
+			var currentFrame = (int)Math.Round(1f / DeltaType switch
+			{
+				DeltaTimeType.Smooth => Time.smoothDeltaTime,
+				DeltaTimeType.Unscaled => Time.unscaledDeltaTime,
+				_ => Time.unscaledDeltaTime
+			});
+			_frameRateSamples[_averageCounter] = currentFrame;
+		}
+
+		// Average
+		{
+			var average = 0f;
+
+			foreach (var frameRate in _frameRateSamples) {
+				average += frameRate;
+			}
+
+			_currentAveraged = (int)Math.Round(average / _averageFromAmount);
+			_averageCounter = (_averageCounter + 1) % _averageFromAmount;
+		}
+
+		// Assign to UI
+		{
+			Text.text = "FPS:" + _currentAveraged switch
+			{
+				var x when x >= 0 && x < _cacheNumbersAmount => CachedNumberStrings[x],
+				var x when x >= _cacheNumbersAmount => $"> {_cacheNumbersAmount}",
+				var x when x < 0 => "< 0",
+				_ => "?"
+			};
+		}
 	}
 }

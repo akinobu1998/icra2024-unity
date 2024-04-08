@@ -99,6 +99,11 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			SetDestination(0.2f, -60f, -30f);
 		}
 
+		public void DownArmLittle()
+		{
+			SetDestination(0.0f, -60f, -30f);
+		}
+
 		public void DownArm()
 		{
 			SetDestination(0.0f, -120f, +30f);

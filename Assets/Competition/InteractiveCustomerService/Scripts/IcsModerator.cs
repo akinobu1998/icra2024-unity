@@ -453,7 +453,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 							SendRosMessage(MsgGiveItemSucceeded, string.Empty);
 
-							this.armController.UpArm();
+							this.armController.DownArmLittle();
 
 							this.receivedMessageMap[MsgGiveItem] = false;
 							this.step++;

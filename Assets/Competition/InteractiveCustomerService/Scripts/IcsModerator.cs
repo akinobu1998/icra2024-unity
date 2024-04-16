@@ -727,7 +727,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 				if(conversationMsg.type==MsgRobotMessage)
 				{
-					if(ExistsUnreadRobotMessage())// || this.tool.IsSpeaking()) this.step!=ModeratorStep.RobotIsInFrontOfMe || 
+					if(ExistsUnreadRobotMessage() || GetRobotState()!=RobotState.InConversation || this.tool.IsSpeaking())
 					{
 						SIGVerseLogger.Warn("Bad timing. message : " + conversationMsg.type + ", ExistsUnreadRobotMessage=" + ExistsUnreadRobotMessage());//+", Speaking="+this.tool.IsSpeaking());
 						SendRosMessage(MsgRobotMsgFailed, MsgBadTiming+":"+conversationMsg.detail);
@@ -741,7 +741,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 				if(conversationMsg.type==MsgTakeItem)
 				{
-					if(ExistsUnreadRobotMessage()) //this.step!=ModeratorStep.RobotIsInFrontOfMe || 
+					if(ExistsUnreadRobotMessage() || GetRobotState()!=RobotState.InConversation || this.tool.IsSpeaking())
 					{ 
 						SIGVerseLogger.Warn("Bad timing. message : " + conversationMsg.type + ", step="+this.step+", ExistsUnreadRobotMessage="+ExistsUnreadRobotMessage());
 						SendRosMessage(MsgTakeItemFailed, MsgBadTiming+":"+conversationMsg.detail);
@@ -761,7 +761,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 				if(conversationMsg.type==MsgGiveItem)
 				{
-					if(ExistsUnreadRobotMessage()) //this.step!=ModeratorStep.RobotIsInFrontOfMe || 
+					if(ExistsUnreadRobotMessage() || GetRobotState()!=RobotState.InConversation || this.tool.IsSpeaking())
 					{
 						SIGVerseLogger.Warn("Bad timing. message : " + conversationMsg.type + ", step="+this.step+", ExistsUnreadRobotMessage="+ExistsUnreadRobotMessage());
 						SendRosMessage(MsgGiveItemFailed, MsgBadTiming);

@@ -10,7 +10,6 @@ using SIGVerse.RosBridge;
 using SIGVerse.FCSC.Common;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Printing;
 
 namespace SIGVerse.FCSC.InteractiveCustomerService
 {
@@ -61,7 +60,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		public const string SpeechLanguage = "409";
 		public const string SpeechGenderModerator = "Male";
 		public const string SpeechGenderHsr       = "Female";
-
+		public const int    MaxMessageLength = 1000;
 
 		private IRosConnection[] rosConnections;
 
@@ -227,10 +226,36 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			}
 		}
 
+		public void StopSpeechForcefully()
+		{
+			if (!this.isSpeechUsed) { return; }
+
+			this.speechInfoQue.Clear();
+
+			try
+			{
+				if (!this.speechProcess.HasExited)
+				{
+					this.speechProcess.Kill();
+					SIGVerseLogger.Warn("Terminate the speech process.");
+				}
+			}
+			catch (Exception)
+			{
+				SIGVerseLogger.Warn("Couldn't terminate the speech process, but do nothing.");
+			}
+		}
+
 
 		public void AddSpeechQue(string message, string gender, bool canCancel = false)
 		{
 			if(!this.isSpeechUsed){ return; }
+
+			if (message.Length > MaxMessageLength)
+			{
+				message = message.Substring(0, MaxMessageLength);
+				SIGVerseLogger.Warn("Length of message is over " + MaxMessageLength.ToString() + " charcters.");
+			}
 
 			this.speechInfoQue.Enqueue(new SpeechInfo(message, gender, canCancel));
 		}

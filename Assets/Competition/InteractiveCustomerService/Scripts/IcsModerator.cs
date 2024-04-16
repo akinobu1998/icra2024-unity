@@ -289,6 +289,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 					SIGVerseLogger.Info("Failed '" + this.interruptedReason + "'");
 					this.SendPanelNotice("Failed\n"+ this.interruptedReason.Replace('_',' '), 100, PanelNoticeStatus.Red);
 
+					this.tool.StopSpeechForcefully();
+
 					if(this.interruptedReason==ReasonTimeIsUp)
 					{
 						this.tool.AddSpeechQueModerator(ReasonTimeIsUp);

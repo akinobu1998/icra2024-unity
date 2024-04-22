@@ -749,7 +749,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 					}
 					else if(!CanTakeItem(conversationMsg.detail))
 					{
-						SIGVerseLogger.Warn("Item not found. message : " + conversationMsg.type + ", step="+this.step);
+						SIGVerseLogger.Warn("Item not found. message : " + conversationMsg.type + "," + conversationMsg.detail+ ", step="+this.step);
 						SendRosMessage(MsgTakeItemFailed, MsgItemNotFound+":"+conversationMsg.detail);
 						return; 
 					}
@@ -868,7 +868,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 		public void OnGiveUp()
 		{
-			if(this.step > ModeratorStep.TaskStart && this.step < ModeratorStep.WaitForNextTask)
+			if((this.step > ModeratorStep.TaskStart && this.step < ModeratorStep.WaitForNextTask) || this.step==ModeratorStep.TakeItemGo || this.step==ModeratorStep.TakeItemBack)
 			{
 				this.interruptedReason = ReasonGiveUp;
 			}

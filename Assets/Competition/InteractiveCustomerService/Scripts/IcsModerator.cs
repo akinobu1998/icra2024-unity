@@ -512,24 +512,25 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 						{
 							bool isSucceeded = this.tool.GetTargetItem() == this.graspedItem;
 
-							if (isSucceeded)
-							{
-								SIGVerseLogger.Info("Task Completed");
-								this.SendPanelNotice("Task Completed", 120, PanelNoticeStatus.Green);
-								this.scoreManager.AddScore(Score.Type.PlacementSuccess, new object[] { this.robotSpeechCnt });
-								this.tool.AddSpeechQueModerator("Excellent!");
+							// if (isSucceeded)
+							// {
+							SIGVerseLogger.Info("Task Completed");
+							// this.SendPanelNotice("Task Completed", 120, PanelNoticeStatus.Green);
+							this.scoreManager.AddScore(Score.Type.PlacementSuccess, new object[] { this.robotSpeechCnt });
+							// this.tool.AddSpeechQueModerator("Excellent!");
 
-								this.GoToNextTaskTaskSucceeded();
-							}
-							else
-							{
-								SIGVerseLogger.Info("Failed '" + MsgWrongProduct + "'");
-								this.SendPanelNotice("Failed\n" + MsgWrongProduct, 100, PanelNoticeStatus.Red);
-								this.scoreManager.AddScore(Score.Type.PlacementFailure, new object[] { this.robotSpeechCnt });
-								this.tool.AddSpeechQueModeratorFailed();
+							// this.GoToNextTaskTaskSucceeded();
+							this.step = ModeratorStep.InConversation;
+							// }
+							// else
+							// {
+							// 	SIGVerseLogger.Info("Failed '" + MsgWrongProduct + "'");
+							// 	this.SendPanelNotice("Failed\n" + MsgWrongProduct, 100, PanelNoticeStatus.Red);
+							// 	this.scoreManager.AddScore(Score.Type.PlacementFailure, new object[] { this.robotSpeechCnt });
+							// 	// this.tool.AddSpeechQueModeratorFailed();
 
-								this.GoToNextTaskTaskFailed(MsgWrongProduct);
-							}
+							// 	// this.GoToNextTaskTaskFailed(MsgWrongProduct);
+							// }
 						}
 						break;
 

@@ -417,7 +417,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 							this.tool.AddSpeechQueHsr(this.robotMessage);
 
 							SendRosMessage(MsgRobotMsgSucceeded, this.robotMessage);
-							this.robotSpeechCnt++;
+							// this.robotSpeechCnt++;
+							this.robotSpeechCnt = 0;
 							SIGVerseLogger.Info("Robot Speech Count="+this.robotSpeechCnt);
 							this.scoreManager.AddScore(Score.Type.RobotSpeech, new object[] { this.robotSpeechCnt });
 
@@ -844,7 +845,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 		private bool ExistsUnreadRobotMessage()
 		{
-			return this.receivedMessageMap[MsgRobotMessage] || this.receivedMessageMap[MsgTakeItem] || this.receivedMessageMap[MsgGiveItem];
+			// return this.receivedMessageMap[MsgRobotMessage] || this.receivedMessageMap[MsgTakeItem] || this.receivedMessageMap[MsgGiveItem];
+			return false;
 		}
 
 		private GameObject TakeItem(string productName)

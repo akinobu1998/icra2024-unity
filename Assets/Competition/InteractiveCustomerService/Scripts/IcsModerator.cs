@@ -88,7 +88,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		public Button   customerNoButton;
 		public Button   customerIdontKnowButton;
 		public TMP_Text     customerOQAnswer;
-		public Button   customerOQSend;
+		// public Button   customerOQSend;
 		public Image    taskImageImage;
 		public CameraForUI cameraForTargetObj;
 		public CameraForUI cameraForGraspedObj;
@@ -830,18 +830,18 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		}
 
 		// public void OnCustomerIdontKnowButtonClick()
-		public void OnCustomerOQSendButtonClick()
-		{
-			if(this.customerButtonMsg!=string.Empty) //this.step!=ModeratorStep.RobotIsInFrontOfMe || 
-			{
-				SIGVerseLogger.Warn("Bad timing. Button Click: "+MsgIdontKnow);
-				return; 
-			}
+		// public void OnCustomerOQSendButtonClick()
+		// {
+		// 	if(this.customerButtonMsg!=string.Empty) //this.step!=ModeratorStep.RobotIsInFrontOfMe || 
+		// 	{
+		// 		SIGVerseLogger.Warn("Bad timing. Button Click: "+MsgIdontKnow);
+		// 		return; 
+		// 	}
 			
-			SIGVerseLogger.Info("[I don't know] button clicked");
+		// 	SIGVerseLogger.Info("[I don't know] button clicked");
 			
-			this.customerButtonMsg = MsgIdontKnow;
-		}
+		// 	this.customerButtonMsg = MsgIdontKnow;
+		// }
 
 		// public void OnCustomerOQSendButtonClick()
 		public void OnCustomerIdontKnowButtonClick()
@@ -869,7 +869,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			this.customerYesButton      .interactable = true;
 			this.customerNoButton       .interactable = true;
 			this.customerIdontKnowButton.interactable = true;
-			this.customerOQSend			.interactable = true;
+			// this.customerOQSend			.interactable = true;
 		}
 
 		private void DisableCustomerButtons()
@@ -877,7 +877,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			this.customerYesButton      .interactable = false;
 			this.customerNoButton       .interactable = false;
 			this.customerIdontKnowButton.interactable = false;
-			this.customerOQSend			.interactable = false;
+			// this.customerOQSend			.interactable = false;
 		}
 
 		private bool ExistsUnreadRobotMessage()

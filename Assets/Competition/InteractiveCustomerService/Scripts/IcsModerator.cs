@@ -60,6 +60,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		private const string MsgYes = "Yes";
 		private const string MsgNo  = "No";
 		private const string MsgIdontKnow = "I don't know";
+		private string MsgOQAnswer = "Answer";
 
 		private const string MsgBadTiming       = "Bad_timing";
 		private const string MsgItemNotFound    = "Item not found";
@@ -86,6 +87,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		public Button   customerYesButton;
 		public Button   customerNoButton;
 		public Button   customerIdontKnowButton;
+		public TMP_Text     customerOQAnswer;
+		public Button   customerOQSend;
 		public Image    taskImageImage;
 		public CameraForUI cameraForTargetObj;
 		public CameraForUI cameraForGraspedObj;
@@ -211,7 +214,10 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 			this.mainPanelController.SetTeamNameText("Team: " + IcsConfig.Instance.info.teamName);
 			this.mainPanelController.SetTrialNumberText(IcsConfig.Instance.numberOfTrials);
+			// this.mainPanelController.SetOQAnswerText("sample");
+			// this.customerOQAnswer.text =  this.mainPanelController.GetOQAnswerText();
 
+			// SIGVerseLogger.Info(this.mainPanelController.GetOQAnswerText());
 			SIGVerseLogger.Info("##### " + this.mainPanelController.GetTrialNumberText() + " #####");
 
 			this.scoreManager.ResetTimeLeftText();
@@ -280,7 +286,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		{
 			try
 			{
-				this.tool.ControlSpeech(this.step==ModeratorStep.WaitForNextTask); // Speech
+				// this.tool.ControlSpeech(this.step==ModeratorStep.WaitForNextTask); // Speech
 
 				if (this.isAllTaskFinished) { return; }
 
@@ -312,7 +318,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 					this.robotStatusElapsedTime = 0.0f;
 				}
 
-				if(this.receivedMessageMap[MsgRobotMessage] && this.step!=ModeratorStep.InConversation)
+				// if(this.receivedMessageMap[MsgRobotMessage] && this.step!=ModeratorStep.InConversation)
+				if(this.receivedMessageMap[MsgRobotMessage])
 				{
 					SIGVerseLogger.Warn("Bad timing. message : " + MsgRobotMessage + ", step=" + this.step);
 					SendRosMessage(MsgRobotMsgFailed, MsgBadTiming+":"+this.robotMessage);
@@ -481,6 +488,12 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 								this.SendRosMessage(MsgCustomerMessage, MsgIdontKnow);
 								this.tool.AddSpeechQueModerator(MsgIdontKnow);
 							}
+							else if (this.customerButtonMsg == MsgOQAnswer)
+							{
+								this.SendRosMessage(MsgCustomerMessage, this.mainPanelController.GetOQAnswerText());
+								this.tool.AddSpeechQueModerator(this.mainPanelController.GetOQAnswerText());
+								SIGVerseLogger.Info("OQ Answer: " + this.mainPanelController.GetOQAnswerText());
+							}
 							this.customerButtonMsg = string.Empty;
 							break;
 						}
@@ -631,7 +644,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			this.robotStateText.text = GetRobotState().ToString();
 			this.graspedItemText.text = graspedItemName==string.Empty ? "-" : graspedItemName;
 
-			this.icsPubRobotStatus.SendRobotStatus(GetRobotState(), this.tool.IsSpeaking(), graspedItemName);
+			// this.icsPubRobotStatus.SendRobotStatus(GetRobotState(), this.tool.IsSpeaking(), graspedItemName);
 		}
 
 		private RobotState GetRobotState()
@@ -816,7 +829,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			this.customerButtonMsg = MsgNo;
 		}
 
-		public void OnCustomerIdontKnowButtonClick()
+		// public void OnCustomerIdontKnowButtonClick()
+		public void OnCustomerOQSendButtonClick()
 		{
 			if(this.customerButtonMsg!=string.Empty) //this.step!=ModeratorStep.RobotIsInFrontOfMe || 
 			{
@@ -829,11 +843,33 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			this.customerButtonMsg = MsgIdontKnow;
 		}
 
+		// public void OnCustomerOQSendButtonClick()
+		public void OnCustomerIdontKnowButtonClick()
+		{
+
+			// AnswerText = this.mainPanelController.GetOQAnswerText();
+			// Convert AnswerText to string
+			string AnswerTextString = this.mainPanelController.GetOQAnswerText();
+
+			// AnswerTextString = AnswerText.text;
+
+			if(this.customerButtonMsg!=string.Empty) //this.step!=ModeratorStep.RobotIsInFrontOfMe || 
+			{
+				SIGVerseLogger.Warn("Bad timing. Button Click: "+AnswerTextString);
+				return; 
+			}
+			
+			SIGVerseLogger.Info("[OQ Send] button clicked" + AnswerTextString);
+			
+			this.customerButtonMsg = MsgOQAnswer;
+		}
+
 		private void EnableCustomerButtons()
 		{
 			this.customerYesButton      .interactable = true;
 			this.customerNoButton       .interactable = true;
 			this.customerIdontKnowButton.interactable = true;
+			this.customerOQSend			.interactable = true;
 		}
 
 		private void DisableCustomerButtons()
@@ -841,6 +877,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			this.customerYesButton      .interactable = false;
 			this.customerNoButton       .interactable = false;
 			this.customerIdontKnowButton.interactable = false;
+			this.customerOQSend			.interactable = false;
 		}
 
 		private bool ExistsUnreadRobotMessage()

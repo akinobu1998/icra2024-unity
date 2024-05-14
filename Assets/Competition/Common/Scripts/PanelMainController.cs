@@ -27,6 +27,8 @@ namespace SIGVerse.FCSC.Common
 		private Text trialNumberText;
 		private Text timeLeftValText;
 		private Text taskMessageText;
+		// private Text oqAnswerText;
+		private InputField oqAnswerInput;
 
 		private List<Camera> audienceCameras;
 		private int mainAudienceCameraNo;
@@ -38,6 +40,7 @@ namespace SIGVerse.FCSC.Common
 			this.trialNumberText = this.mainPanel.transform.Find("TargetsOfHiding/TrialNumberText")             .GetComponent<Text>();
 			this.timeLeftValText = this.mainPanel.transform.Find("TargetsOfHiding/TimeLeftInfo/TimeLeftValText").GetComponent<Text>();
 			this.taskMessageText = this.mainPanel.transform.Find("TargetsOfHiding/TaskMessageText")             .GetComponent<Text>();
+			this.oqAnswerInput   = this.mainPanel.transform.Find("TargetsOfHiding/InteractiveCustomerServiceData/YesNoPanel/OQAnswer").GetComponent<InputField>();
 
 
 			List<GameObject> audienceCameraObjs = GameObject.FindGameObjectsWithTag(TagNameAudienceCamera).ToList();
@@ -65,6 +68,16 @@ namespace SIGVerse.FCSC.Common
 		public void SetTeamNameText(string teamName)
 		{
 			this.teamNameText.text = teamName;
+		}
+
+		public void SetOQAnswerText(string oqAnswer)
+		{
+			this.oqAnswerInput.text = oqAnswer;
+		}
+
+		public string GetOQAnswerText()
+		{
+			return this.oqAnswerInput.text.ToString();
 		}
 
 		public void SetTimeLeft(float timeLeft)

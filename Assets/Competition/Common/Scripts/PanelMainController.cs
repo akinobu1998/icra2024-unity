@@ -80,6 +80,11 @@ namespace SIGVerse.FCSC.Common
 			return this.oqAnswerInput.text.ToString();
 		}
 
+		public void ClearOQAnswerText()
+		{
+			this.oqAnswerInput.text = "";
+		}
+
 		public void SetTimeLeft(float timeLeft)
 		{
 

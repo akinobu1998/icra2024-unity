@@ -136,6 +136,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 		private string lastPanelMessage;
 
 		private float robotStatusElapsedTime;
+		private string AnswerTextString;
 
 		void Awake()
 		{
@@ -318,8 +319,8 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 					this.robotStatusElapsedTime = 0.0f;
 				}
 
-				// if(this.receivedMessageMap[MsgRobotMessage] && this.step!=ModeratorStep.InConversation)
-				if(this.receivedMessageMap[MsgRobotMessage])
+				// if(this.receivedMessageMap[MsgRobotMessage])
+				if(this.receivedMessageMap[MsgRobotMessage] && this.step!=ModeratorStep.InConversation)
 				{
 					SIGVerseLogger.Warn("Bad timing. message : " + MsgRobotMessage + ", step=" + this.step);
 					SendRosMessage(MsgRobotMsgFailed, MsgBadTiming+":"+this.robotMessage);
@@ -490,9 +491,9 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 							}
 							else if (this.customerButtonMsg == MsgOQAnswer)
 							{
-								this.SendRosMessage(MsgCustomerMessage, this.mainPanelController.GetOQAnswerText());
-								this.tool.AddSpeechQueModerator(this.mainPanelController.GetOQAnswerText());
-								SIGVerseLogger.Info("OQ Answer: " + this.mainPanelController.GetOQAnswerText());
+								this.SendRosMessage(MsgCustomerMessage, this.AnswerTextString);
+								this.tool.AddSpeechQueModerator(this.AnswerTextString);
+								SIGVerseLogger.Info("OQ Answer: " + this.AnswerTextString);
 							}
 							this.customerButtonMsg = string.Empty;
 							break;
@@ -849,7 +850,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 
 			// AnswerText = this.mainPanelController.GetOQAnswerText();
 			// Convert AnswerText to string
-			string AnswerTextString = this.mainPanelController.GetOQAnswerText();
+			this.AnswerTextString = this.mainPanelController.GetOQAnswerText();
 
 			// AnswerTextString = AnswerText.text;
 
@@ -862,6 +863,7 @@ namespace SIGVerse.FCSC.InteractiveCustomerService
 			SIGVerseLogger.Info("[OQ Send] button clicked" + AnswerTextString);
 			
 			this.customerButtonMsg = MsgOQAnswer;
+			this.mainPanelController.ClearOQAnswerText();
 		}
 
 		private void EnableCustomerButtons()
